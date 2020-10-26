@@ -33,7 +33,7 @@ include SSW_WPRDI_PATH."/views/template/header.php";
 </form>
 <p>
     Informações sobre onde encontrar esse dados 
-    <a href="https://appstore.rdstation.com/pt-BR/publisher/">aqui.</a>
+    <a target="_blank" href="https://appstore.rdstation.com/pt-BR/publisher/">aqui.</a>
 </p>
 <?php
 include SSW_WPRDI_PATH."/views/template/footer.php";

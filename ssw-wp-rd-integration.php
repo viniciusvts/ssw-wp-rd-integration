@@ -11,7 +11,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // Informações do app
 define('SSW_WPRDI_PATH', dirname( __FILE__ ) );
 define('SSW_WPRDI_URL', plugins_url( '', __FILE__ ) );
-define('SSW_WPRDI_PLUGIN_NAME', 'RD Integration' );
+define('SSW_WPRDI_PLUGIN_NAME', 'SSW RD Integra' );
 define('SSW_WPRDI_PLUGIN_SLUG', 'rdi-admin' );
 define('SSW_WPRDI_URLHOME', '/wp-admin/admin.php?page='.SSW_WPRDI_PLUGIN_SLUG );
 //informações do aplicativo criado no rd

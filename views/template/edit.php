@@ -25,12 +25,18 @@ include SSW_WPRDI_PATH."/views/template/header.php";
     <input type="text" name="client_secret" value="<?php echo $RDI->getClientSecret() ?>">
     <input type="submit" value="Atualizar">
 </form>
-<!-- Reset all -->
+<?php
+if($RDI->hasCode()){
+?>
+<!-- Reset Code -->
 <form method="POST" action="<?php $_SERVER['HTTP_REFERER'] ?>">
     <label for="code">Apagar Autorização?</label>
     <input type="hidden" name="code" value="true">
     <input type="submit" value="Apagar">
 </form>
+<?php
+}
+?>
 <p>
     Informações sobre onde encontrar esse dados 
     <a target="_blank" href="https://appstore.rdstation.com/pt-BR/publisher/">aqui.</a>

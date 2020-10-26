@@ -29,7 +29,7 @@ else{
         $url = 'https://api.rd.services/auth/dialog?client_id=';
         $url .= $RDI->getClientId().'&redirect_uri='.SSW_WPRDI_URLCALLBACK;
         //
-        echo '<a target="_blank" href="';
+        echo '<a href="';
         echo $url;
         echo '">Iniciar integração</a>';
     }

@@ -101,7 +101,7 @@ if( !class_exists('Rdi_wp') ){
                 'client_secret' => $this->client_secret,
                 'code' => $this->code
             );
-            $resp = $this->sendCurlJson($url, $payload);
+            $resp = $this->post($url, $payload);
             if(!isset($resp->access_token) || !isset($resp->refresh_token)){ return false; }
             if(isset($resp->access_token)){ $this->setAccessToken($resp->access_token); }
             if(isset($resp->refresh_token)){ $this->setRefreshToken($resp->refresh_token); }
@@ -119,7 +119,7 @@ if( !class_exists('Rdi_wp') ){
                     'client_secret' => $this->client_secret,
                     'refresh_token' => $this->refresh_token
                 );
-                $resp = $this->sendCurlJson($url, $payload);
+                $resp = $this->post($url, $payload);
                 if(!$resp->access_token || !$resp->refresh_token){ return false; }
                 if($resp->access_token){ $this->setAccessToken($resp->access_token); }
                 if($resp->refresh_token){ $this->setRefreshToken($resp->refresh_token); }
@@ -144,7 +144,7 @@ if( !class_exists('Rdi_wp') ){
             $headers = array(
                 'Authorization' => 'Bearer '. $this->access_token
             );
-            $resp = $this->sendCurlJson($url, $pload, $headers);
+            $resp = $this->post($url, $pload, $headers);
             if(isset($resp->event_uuid)){ return $resp; }
             else{ 
                 // se não retornar resposta atualizo o token no servidor
@@ -155,7 +155,7 @@ if( !class_exists('Rdi_wp') ){
                         'Authorization' => 'Bearer '. $this->access_token
                     );
                     //envia
-                    $resp = $this->sendCurlJson($url, $pload, $headers);
+                    $resp = $this->post($url, $pload, $headers);
                     if(isset($resp->event_uuid)){ return $resp; }
                 }
             }
@@ -164,7 +164,7 @@ if( !class_exists('Rdi_wp') ){
         }
 
         //funções auxiliares
-        private function sendCurlJson($url, $payload, $headers = []){
+        private function post($url, $payload, $headers = []){
             $ch = curl_init($url);
             // Attach encoded JSON string to the POST fields
             $payloadJsonEncoded = json_encode($payload);

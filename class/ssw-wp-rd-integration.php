@@ -185,5 +185,24 @@ if( !class_exists('Rdi_wp') ){
             //return
             return json_decode($result);
         }
+        /**
+         * get
+         */
+        private function get($url, $headers = []){
+            $ch = curl_init($url);
+            // Set the content type to application/json
+            $headersArray = array('Content-Type:application/json');
+            foreach ($headers as $key => $value) {
+                $headersArray[] = $key.':'.$value;
+            }
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
+            
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            // Close cURL resource
+            curl_close($ch);
+            //return
+            return json_decode($result);
+        }
     }
 }

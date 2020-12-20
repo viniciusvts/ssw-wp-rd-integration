@@ -128,7 +128,38 @@ if( !class_exists('Rdi_wp') ){
             return false;
         }
 
-        //funções de conversão RD
+        /**
+         * Recupera dados de um contato pelo email
+         * https://developers.rdstation.com/pt-BR/reference/contacts#methodGetDetailsemail
+         */
+        public function getContactByEmail($email){
+            $url = 'https://api.rd.services/platform/contacts/email:'.$email;
+            //headers
+            $headers = array(
+                'Authorization' => 'Bearer '. $this->access_token
+            );
+            $resp = $this->get($url, $headers);
+            if(isset($resp->email)){ return $resp; }
+            else{ 
+                // se não retornar resposta atualizo o token no servidor
+                // atualizo o header e tento novamente
+                if($this->refreshToken()){
+                    //headers
+                    $headers = array(
+                        'Authorization' => 'Bearer '. $this->access_token
+                    );
+                    //envia
+                    $resp = $this->get($url, $headers);
+                    if(isset($resp->email)){ return $resp; }
+                }
+            }
+            return false;
+        }
+
+        /**
+         * funções de conversão RD
+         * https://developers.rdstation.com/pt-BR/reference/events#conversionEventPostDetails
+         */
         public function sendConversionEvent($id, $content){
             $url = 'https://api.rd.services/platform/events';
             //payload

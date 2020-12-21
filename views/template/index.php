@@ -3,6 +3,16 @@ include SSW_WPRDI_PATH."/views/template/header.php";
 $RDI = new Rdi_wp();
 ?>
 <h2>Home</h2>
+<p>
+<?php
+$newtags = array(
+    "tags" => array('tag1', 'tag2')
+);
+$getContact = $RDI->getContactByEmail('teste@email.com');
+$esdited = $RDI->editContact($getContact->uuid, $newtags);
+var_dump($esdited);
+?>
+</p>
 <p>Status da integração:</p>
 <?php
 if($RDI->hasClientId()){ echo '<p>Client ID ok</p>'; }

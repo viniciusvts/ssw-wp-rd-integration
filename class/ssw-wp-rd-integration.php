@@ -194,6 +194,36 @@ if( !class_exists('Rdi_wp') ){
             
         }
 
+        /**
+         * Editar contato do RD
+         * https://developers.rdstation.com/pt-BR/reference/contacts#methodPatchDetails
+         */
+        public function editContact($id, $obj){
+            $url = 'https://api.rd.services/platform/contacts/'. $id;
+            //payload
+            if (is_array($obj)) $obj = (object) $obj;
+            //headers
+            $headers = array(
+                'Authorization' => 'Bearer '. $this->access_token
+            );
+            $resp = $this->patch($url, $obj, $headers);
+            if(isset($resp->uuid)){ return $resp; }
+            else{ 
+                // se não retornar resposta atualizo o token no servidor
+                // atualizo o header e tento novamente
+                if($this->refreshToken()){
+                    //headers
+                    $headers = array(
+                        'Authorization' => 'Bearer '. $this->access_token
+                    );
+                    //envia
+                    $resp = $this->patch($url, $obj, $headers);
+                    if(isset($resp->uuid)){ return $resp; }
+                }
+            }
+            return false;
+        }
+
         //funções auxiliares
         private function post($url, $payload, $headers = []){
             $ch = curl_init($url);

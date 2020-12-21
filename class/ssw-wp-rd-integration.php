@@ -235,5 +235,30 @@ if( !class_exists('Rdi_wp') ){
             //return
             return json_decode($result);
         }
+        /**
+         * patch
+         */
+        private function patch($url, $payload, $headers = []){
+            $ch = curl_init($url);
+            // Attach encoded JSON string to the POST fields
+            $payloadJsonEncoded = json_encode($payload);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadJsonEncoded);
+            // Set the content type to application/json
+            $headersArray = array('Content-Type:application/json');
+            foreach ($headers as $key => $value) {
+                $headersArray[] = $key.':'.$value;
+            }
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
+            
+            // Return response instead of outputting
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // Execute the POST request
+            $result = curl_exec($ch);
+            // Close cURL resource
+            curl_close($ch);
+            //return
+            return json_decode($result);
+        }
     }
 }

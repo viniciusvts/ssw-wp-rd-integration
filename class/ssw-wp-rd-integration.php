@@ -224,6 +224,35 @@ if( !class_exists('Rdi_wp') ){
             return false;
         }
 
+        /**
+         * Retorna a lista de campos salvos
+         * https://developers.rdstation.com/pt-BR/reference/fields#methodGetDetails
+         */
+        public function getFields(){
+            $url = 'https://api.rd.services/platform/contacts/fields';
+            //headers
+            $headers = array(
+                'Authorization' => 'Bearer '. $this->access_token
+            );
+            $resp = $this->get($url, $headers);
+            if(isset($resp->fields)){ return $resp; }
+            else{ 
+                // se não retornar resposta atualizo o token no servidor
+                // atualizo o header e tento novamente
+                if($this->refreshToken()){
+                    //headers
+                    $headers = array(
+                        'Authorization' => 'Bearer '. $this->access_token
+                    );
+                    //envia
+                    $resp = $this->get($url, $headers);
+                    if(isset($resp->fields)){ return $resp; }
+                }
+            }
+            var_dump($resp);
+            return false;
+        }
+
         //funções auxiliares
         private function post($url, $payload, $headers = []){
             $ch = curl_init($url);

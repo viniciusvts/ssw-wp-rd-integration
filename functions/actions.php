@@ -30,7 +30,16 @@ function mainAdminPage()
 		'manage_options',
 		SSW_WPRDI_PLUGIN_SLUG.'-config', 
 		'returnEditPage', 
-		1
+		2
+	);
+	add_submenu_page( 
+		SSW_WPRDI_PLUGIN_SLUG, 
+		SSW_WPRDI_PLUGIN_NAME.'Custom Fields', 
+		'Custom Fields', 
+		'manage_options',
+		SSW_WPRDI_PLUGIN_SLUG.'-custom-fields', 
+		'ssw_rdi_returnCustomFieldsPage', 
+		3
 	);
 }
 function returnMainPage(){
@@ -38,4 +47,7 @@ function returnMainPage(){
 }
 function returnEditPage(){
 	include SSW_WPRDI_PATH."/views/template/edit.php";
+}
+function ssw_rdi_returnCustomFieldsPage(){
+	include SSW_WPRDI_PATH."/views/template/custom-fields.php";
 }

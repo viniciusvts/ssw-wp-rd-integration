@@ -21,18 +21,18 @@ else{
 
 if($RDI->hasCode()){ echo '<p>Autorização ok</p>'; }
 else{
-    if(!$RDI->hasClientId() || !$RDI->hasClientSecret()){ echo '<p>Código ausente, configure o Client ID/Secret primeiro</p>'; }
-    else{ 
-        echo '<p>Integração não completada. Antes de iniciar, defina na aplicação do RD a url de callback para: <strong>';
-        echo SSW_WPRDI_URLCALLBACK.'</strong></p>';
-        //url de integração rd
-        $url = 'https://api.rd.services/auth/dialog?client_id=';
-        $url .= $RDI->getClientId().'&redirect_uri='.SSW_WPRDI_URLCALLBACK;
-        //
-        echo '<a href="';
-        echo $url;
-        echo '">Iniciar integração</a>';
+    if(!$RDI->hasClientId() || !$RDI->hasClientSecret()){
+        echo '<p>Código ausente, configure o Client ID/Secret primeiro</p>';
     }
+    //url de integração rd
+    $url = 'https://api.rd.services/auth/dialog?client_id=';
+    $url .= $RDI->getClientId().'&redirect_uri='.SSW_WPRDI_URLCALLBACK;
+    echo '<a href="';
+    echo $url;
+    echo '">Iniciar integração</a>';
+    //
+    echo '<p>Integração não completada. Antes de iniciar, defina na aplicação do RD a url de callback para: <strong>';
+    echo SSW_WPRDI_URLCALLBACK.'</strong></p>';
 }
 
 include SSW_WPRDI_PATH."/views/template/footer.php";

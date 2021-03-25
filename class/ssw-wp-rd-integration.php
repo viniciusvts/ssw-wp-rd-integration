@@ -246,10 +246,9 @@ if( !class_exists('Rdi_wp') ){
                     );
                     //envia
                     $resp = $this->get($url, $headers);
-                    if(isset($resp->fields)){ return $resp; }
+                    if(isset($resp->fields) || isset($resp->errors)){ return $resp; }
                 }
             }
-            var_dump($resp);
             return false;
         }
 

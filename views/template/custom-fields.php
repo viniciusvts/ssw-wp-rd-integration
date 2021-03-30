@@ -61,7 +61,7 @@ if (isset($fields->errors)) {
 				<?php
 				if (isset($field->validation_rules->valid_options)){
 					foreach($field->validation_rules->valid_options as $key => $option){
-						echo ($key + 1).') '.$option->value;
+						echo ($key + 1).') "'.$option->value.'"';
 						echo '<br>';
 					}
 				} else {

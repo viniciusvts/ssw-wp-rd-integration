@@ -59,6 +59,13 @@ Dados de um contato pelo email:
     
     $RDI->getContactByEmail('email@email.com');
 
+Obter a lista de fields cadastrados: 
+[Documentação no RD](https://developers.rdstation.com/pt-BR/reference/fields#field-get).
+
+    
+    $RDI->getFields();
+
+## Enviar/Editar dados
 Enviar uma conversão: 
 Veja na [documentação no RD](https://developers.rdstation.com/pt-BR/reference/events#events-post) a construção de 'params'.
 
@@ -71,10 +78,11 @@ Veja na [documentação no RD](https://developers.rdstation.com/pt-BR/reference/
     
     $RDI->editContact(idDoContato, obj);
 
-Obter a lista de fields cadastrados: 
-[Documentação no RD](https://developers.rdstation.com/pt-BR/reference/fields#field-get).
+Editar os dados do funil do contato/lead: 
+Veja na [documentação no RD](https://developers.rdstation.com/pt-BR/reference/contacts/funnels) a construção de '$obj'.
 
     
-    $RDI->getFields();
+    $RDI->putFunnel('idOuEmailDoContato', $obj, 'funnel_name');
+
 
 Enjoy!

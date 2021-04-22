@@ -252,6 +252,44 @@ if( !class_exists('Rdi_wp') ){
             return false;
         }
 
+        /**
+         * Atualiza as informações do funil do contato atual
+         * https://developers.rdstation.com/pt-BR/reference/contacts/funnels
+         * @param String $id - id ou email do contato
+         * @param object $obj - conteúdo do payload a ser enviado para o endpoint:
+         * {
+         *    "lifecycle_stage": "Client",
+         *    "opportunity": true,
+         *    "contact_owner_email": "email@santana.org"
+         *  }
+         * @param object $funnel_name - Nome do funil (consulte doc RD)
+         */
+        public function putFunnel($id, $obj, $funnel_name = 'default'){
+            $url = 'https://api.rd.services/platform/contacts/'.$id.'/'.'funnels/'.$funnel_name;
+            //payload
+            if (is_array($obj)) $obj = (object) $obj;
+            //headers
+            $headers = array(
+                'Authorization' => 'Bearer '. $this->access_token
+            );
+            $resp = $this->patch($url, $obj, $headers);
+            if(isset($resp->lifecycle_stage)){ return $resp; }
+            else{ 
+                // se não retornar resposta atualizo o token no servidor
+                // atualizo o header e tento novamente
+                if($this->refreshToken()){
+                    //headers
+                    $headers = array(
+                        'Authorization' => 'Bearer '. $this->access_token
+                    );
+                    //envia
+                    $resp = $this->patch($url, $obj, $headers);
+                    if(isset($resp->lifecycle_stage)){ return $resp; }
+                }
+            }
+            return $resp;
+        }
+
         //funções auxiliares
         private function post($url, $payload, $headers = []){
             $ch = curl_init($url);
@@ -301,6 +339,31 @@ if( !class_exists('Rdi_wp') ){
             // Attach encoded JSON string to the POST fields
             $payloadJsonEncoded = json_encode($payload);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadJsonEncoded);
+            // Set the content type to application/json
+            $headersArray = array('Content-Type:application/json');
+            foreach ($headers as $key => $value) {
+                $headersArray[] = $key.':'.$value;
+            }
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
+            
+            // Return response instead of outputting
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // Execute the POST request
+            $result = curl_exec($ch);
+            // Close cURL resource
+            curl_close($ch);
+            //return
+            return json_decode($result);
+        }
+        /**
+         * put
+         */
+        private function put($url, $payload, $headers = []){
+            $ch = curl_init($url);
+            // Attach encoded JSON string to the POST fields
+            $payloadJsonEncoded = json_encode($payload);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadJsonEncoded);
             // Set the content type to application/json
             $headersArray = array('Content-Type:application/json');

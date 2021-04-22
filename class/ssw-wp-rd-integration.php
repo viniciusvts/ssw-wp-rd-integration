@@ -265,7 +265,8 @@ if( !class_exists('Rdi_wp') ){
          * @param object $funnel_name - Nome do funil (consulte doc RD)
          */
         public function putFunnel($id, $obj, $funnel_name = 'default'){
-            $url = 'https://api.rd.services/platform/contacts/'.$id.'/'.'funnels/'.$funnel_name;
+            $identifier = strpos($id, '@') ? 'email:'.$id : $id;
+            $url = 'https://api.rd.services/platform/contacts/'.$identifier.'/'.'funnels/'.$funnel_name;
             //payload
             if (is_array($obj)) $obj = (object) $obj;
             //headers
